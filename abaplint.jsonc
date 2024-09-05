@@ -9,12 +9,12 @@
         "files": "/src/**/*.*"
       },
       {
-        "url": "https://github.com/abap2UI5/abap2UI5-downport",
+        "url": "https://github.com/downports/abap2UI5",
         "folder": "/abap2UI5",
         "files": "/src/**/*.*"
       },
       {
-        "url": "https://github.com/abap2UI5-downports/addon-layout-variant-management.git",
+        "url": "https://github.com/abap2UI5-downports/layout-variant-management.git",
         "folder": "/layout_vari_management",
         "files": "/src/**/*.*"
       }
