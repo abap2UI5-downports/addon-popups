@@ -1,4 +1,4 @@
-# abap2UI5-addon-transport-requests-downport
+# abap2UI5-addon-popups-downport
 
 * syntax compatible to old R/3 NetWeaver releases
 * use this version for NW 7.02 (use the main repository for NW 7.50 and higher)
