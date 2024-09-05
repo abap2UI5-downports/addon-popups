@@ -3,7 +3,6 @@ CLASS z2ui5_cl_popup_show_tr DEFINITION
   CREATE PUBLIC.
 
   PUBLIC SECTION.
-    INTERFACES if_serializable_object.
     INTERFACES z2ui5_if_app.
 
     TYPES trobj_name     TYPE c LENGTH 120.
@@ -24,7 +23,7 @@ CLASS z2ui5_cl_popup_show_tr DEFINITION
 
     CLASS-METHODS factory
       RETURNING
-        VALUE(result) TYPE REF TO Z2UI5_CL_POPUP_SHOW_TR.
+        VALUE(result) TYPE REF TO z2ui5_cl_popup_show_tr.
 
     CLASS-METHODS add_DATA_to_tranport
       IMPORTING
@@ -59,7 +58,7 @@ CLASS z2ui5_cl_popup_show_tr DEFINITION
     CLASS-METHODS get_e071k_tabkey
       IMPORTING
         !line            TYPE any
-        dfies            TYPE z2ui5_cl_stmpncfctn_api=>ty_t_dfies
+        dfies            TYPE z2ui5_cl_util=>ty_t_dfies
       RETURNING
         VALUE(rv_tabkey) TYPE trobj_name.
 
@@ -97,7 +96,7 @@ CLASS z2ui5_cl_popup_show_tr IMPLEMENTATION.
 
   METHOD on_init.
 
-    IF z2ui5_cl_util=>rtti_check_lang_version_cloud( ) = abap_true.
+    IF z2ui5_cl_util=>context_check_abap_cloud( ) = abap_true.
       get_tr_cloud( ).
     ELSE.
       get_tr_onprem( ).
@@ -165,7 +164,7 @@ CLASS z2ui5_cl_popup_show_tr IMPLEMENTATION.
 
   METHOD add_DATA_to_tranport.
 
-    IF z2ui5_cl_util=>rtti_check_lang_version_cloud( ) = abap_false.
+    IF z2ui5_cl_util=>context_check_abap_cloud( ) = abap_false.
 *      add_to_transport_cloud( ir_data      = ir_data
 *                              iv_tabname   = iv_tabname
 *                              is_transport = is_transport ).
@@ -253,10 +252,13 @@ CLASS z2ui5_cl_popup_show_tr IMPLEMENTATION.
     fb1 = 'TR_APPEND_TO_COMM_OBJS_KEYS'.
 
     CALL FUNCTION fb1
-      EXPORTING  wi_trkorr = is_transport-task
-      TABLES     wt_e071   = <t_e071>
-                 wt_e071k  = <t_e071k>
-      EXCEPTIONS OTHERS    = 1.
+      EXPORTING
+        wi_trkorr = is_transport-task
+      TABLES
+        wt_e071   = <t_e071>
+        wt_e071k  = <t_e071k>
+      EXCEPTIONS
+        OTHERS    = 1.
     IF sy-subrc <> 0.
       RETURN.
     ENDIF.
@@ -265,8 +267,10 @@ CLASS z2ui5_cl_popup_show_tr IMPLEMENTATION.
     fb2 = 'TR_SORT_AND_COMPRESS_COMM'.
 
     CALL FUNCTION fb2
-      EXPORTING  iv_trkorr = is_transport-task
-      EXCEPTIONS OTHERS    = 1.
+      EXPORTING
+        iv_trkorr = is_transport-task
+      EXCEPTIONS
+        OTHERS    = 1.
     IF sy-subrc <> 0.
       RETURN.
     ELSE.
@@ -422,7 +426,7 @@ CLASS z2ui5_cl_popup_show_tr IMPLEMENTATION.
     DATA t_comp TYPE abap_component_tab.
         DATA struct_desc TYPE REF TO cl_abap_structdescr.
         DATA table_desc TYPE REF TO cl_abap_tabledescr.
-    DATA dfies TYPE z2ui5_cl_stmpncfctn_api=>ty_t_dfies.
+    DATA dfies TYPE z2ui5_cl_abap_api=>ty_t_dfies.
     t_comp = z2ui5_cl_util=>rtti_get_t_attri_by_table_name( 'E071K' ).
 
     TRY.
